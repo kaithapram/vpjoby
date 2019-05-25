@@ -1,0 +1,124 @@
+---
+layout: default
+---
+
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+  </ol>
+  <div class="carousel-inner">
+   {% for post in site.posts limit:1 %}
+    <div class="carousel-item active">
+	{% assign image = post.content | split:"!-- ![header](" %}
+        {% assign html = image[1] | split:") -->" | first %}
+        {% if html and html != "" %}
+      <img height="350" class="d-block w-100" src="{{ html }}" alt="First slide">
+	{% endif %}
+<div class="carousel-caption">
+<h5>{{ post.title }}</h5>
+<a href="{{ post.url | prepend: site.baseurl }}" class="btn btn-info shadow-sm text-white" role="button">Buy Now</a>
+</div>
+    </div>
+    {% endfor %}
+    {% for post in site.posts offset: 1 limit:3 %}
+    <div class="carousel-item">
+	{% assign image = post.content | split:"!-- ![header](" %}
+        {% assign html = image[1] | split:") -->" | first %}
+        {% if html and html != "" %}
+      <img height="350" class="d-block w-100" src="{{ html }}" alt="Second slide">
+	{% endif %}
+<div class="carousel-caption">
+<h5>{{ post.title }}</h5>
+<a href="{{ post.url | prepend: site.baseurl }}" class="btn btn-info shadow-sm text-white" role="button">Buy Now</a>
+</div>
+    </div>
+   {% endfor %}
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+  <div class="home">
+
+<h1 class="text-center alert alert-info" role="alert">Our products</h1>
+<div class="container-fluid">
+    
+  
+
+      <div class="card-columns">
+        {% for post in paginator.posts %}
+        
+          
+
+              <div class="card shadow-sm">
+  	            
+			
+                  {% assign yt = post.content | split:"!-- [ytb "%}      
+                  {% assign htm = yt[1] | split:"] -->" | first %}
+                  {% assign thesize = htm.size %}
+                  {% if htm and thesize == 11 %}
+                  {% include youtubeplayer.html id=htm %}
+                  {% endif %}
+                  {% unless htm or thesize == 11 %}
+                  {% assign image = post.content | split:"!-- ![header](" %}
+                  {% assign html = image[1] | split:") -->" | first %}
+                  {% if html and html != "" %}
+                  <img class="card-img-top" src="{{ html }}" alt="header" />
+                  {% endif %}
+                  {% endunless %}
+
+
+			
+                 <div class="card-body">
+		
+                  <h4><a class="text-black card-title text-info" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></h4>
+		
+<div class="byline text-center"><span><i class="fa fa-calendar"></i> {{post.date | date: '%Y, %b %d'}}&nbsp;&nbsp;&nbsp;&nbsp;</span><span><i class="fas fa-pencil-alt" aria-hidden="true"></i> {{site.author}}</span></div>
+                   <p class="card-text">{{ post.content | strip_html | truncatewords:50 }}</p>
+                   <a href="{{ post.url | prepend: site.baseurl }}" class="btn btn-info shadow-sm text-white" role="button">Read More</a>
+                 </div>
+                 
+               </div>
+
+          
+          
+            {% endfor %}
+          </div>
+        
+<nav aria-label="Page navigation">
+{% if paginator.total_pages > 1 %}
+  <ul class="pagination justify-content-center">
+{% if paginator.previous_page == 1 %}
+ <li class="page-item shadow-sm">
+      <a class="page-link" href="{{ site.baseurl }}{{ paginator.previous_page_path }}">&laquo; Previous</a>
+    </li>
+{% elsif paginator.previous_page %}
+    <li class="page-item shadow-sm">
+      <a class="page-link" href="{{ site.baseurl }}{{ paginator.previous_page_path }}/index.html">&laquo; Previous</a>
+    </li>
+{% else %}
+<li class="page-item disabled shadow-sm">
+      <a class="page-link" href="{{ site.baseurl }}{{ paginator.previous_page_path }}">&laquo; Previous</a>
+    </li>
+{% endif %}
+
+   {% if paginator.next_page %}
+    <li class="page-item shadow-sm"><a class="page-link" href="{{ site.baseurl }}/page{{ paginator.next_page }}/index.html">Next &raquo;</a></li>
+  {% else %}
+    <li class="page-item disabled shadow-sm"><a class="page-link" href="{{ paginator.next_page_path }}">Next &raquo;</a></li>
+  {% endif %}
+  </ul>
+{% endif %}
+</nav>     
+
+     
+    </div></div>
